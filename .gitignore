@@ -7,9 +7,12 @@
 /bazel-out
 
 # Node
+/.angular
 /node_modules
 npm-debug.log
+package-lock.json
 yarn-error.log
+yarn.lock
 
 # IDEs and editors
 .idea/

@@ -1,0 +1,114 @@
+<div class="row signup">
+  <div class="col-6 panel" *ngIf="!approved" [@TestFlyOut]>    
+    <div class="row my-4">
+      <div class="col-12">
+        <div class="bg-dark text-center">
+          <button id="joker" type="button" class="hidden" (click)="Instructions()">Click Me</button>
+
+          <p class="text-light p-2 word-wrap">
+            <span alt="Latitude">
+              {{ coordinates.DecimalDegrees.Latitude }}
+            </span>
+
+            <span alt="Longitude">
+              {{ coordinates.DecimalDegrees.Longitude }}
+            </span>
+          </p>          
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-12">
+        <input
+          id="txtPassword"
+          type="password"
+          name="password"
+          [(ngModel)]="password"
+          class="form-control form-group"
+          placeholder="Password"
+          required
+        />
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-12">
+        <div class="d-grid gap-2">
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="CheckPassword()"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="bg-dark text-center">
+          <p class="text-light p-2">
+            <span>Already have an account? </span>
+
+            <a routerLink="/login">Log in</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6 panel" *ngIf="approved" [@RegisterFlyIn]>
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="bg-dark text-center">
+          <p class="text-light p-2 word-wrap">
+            <span>Congratulations!! </span>
+            <span>You passed on the Test...</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-12">
+        <input
+          id="txtUserName"
+          type="username"
+          name="username"
+          [(ngModel)]="username"
+          class="form-control form-group text-center"
+          placeholder="UserName"
+          required
+        />
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-12">
+        <div class="d-grid gap-2">
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="RegisterUser()"
+          >
+            Sign Up
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="bg-dark text-center">
+          <p class="text-light p-2">
+            <span>Already have an account? </span>
+
+            <a routerLink="/login">Log in</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,3 +1,6 @@
 export const environment = {
-  production: true
+  production: true,
+  provaCandidato: {
+    baseUrl: 'http://localhost:5051',
+  },
 };
