@@ -1,10 +1,12 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import BigNumber from 'bignumber.js';
 import JwtEncode from 'jwt-encode';
+import { Alert } from 'src/app/components/alert/alert.component';
+import { AluraPicService } from 'src/app/services/alurapic/alurapic.service';
+import { IfConfigMeService } from 'src/app/services/ifconfig.me/ifconfig.me.service';
 import { Coordinates, DegreesMinutesSeconds } from './coordinates';
-
-type PaneType = 'test' | 'register';
 
 @Component({
   selector: 'app-signup-component',
@@ -36,21 +38,41 @@ type PaneType = 'test' | 'register';
     ]),
   ],
 })
-export class SignUpComponent {
-  @Input() activePane: PaneType = 'test';
+export class SignUpComponent implements OnInit {
+  public coordinates: Coordinates;
 
   public username: string;
   public password: string;
+  public networkip: string;
   public approved: boolean;
 
-  public coordinates: Coordinates;
+  constructor(
+    private readonly router: Router,
+    private readonly ifConfigMeService: IfConfigMeService,
+    private readonly aluraPicService: AluraPicService
+  ) {
+    this.coordinates = this.GenerateCoordinates();
 
-  constructor() {
     this.username = '';
     this.password = '';
+    this.networkip = '';
     this.approved = false;
+  }
 
-    this.coordinates = this.GenerateCoordinates();
+  public ngOnInit(): void {
+    this.ifConfigMeService
+      .AllJson()
+      .then(async (response) => {
+        if (!response.ok) {
+          Alert.Danger("Fail recovery you'r network ip :)");
+          return;
+        }
+
+        const data = await response.json();
+
+        this.networkip = data['ip_addr'];
+      })
+      .catch((error) => Alert.Danger(error.message));
   }
 
   public GenerateCoordinates(): Coordinates {
@@ -80,23 +102,64 @@ export class SignUpComponent {
       '4-Hexadecimal',
     ];
 
-    console.log(JwtEncode(JSON.stringify(instructions), 'joker'));
+    console.clear();
+    console.info(JwtEncode(JSON.stringify(instructions), 'joker'));
   }
 
   public CheckPassword(): void {
+    if (!this.password) {
+      Alert.Warning('Enter with a password');
+      return;
+    }
+
     const text = this.coordinates.DegreesMinutesSeconds.Full;
 
     const binary = this._textToBinary(text);
     const hex = this._binaryToHex(binary);
 
     if (this.password === hex) {
-      this.activePane = 'register';
       this.approved = true;
+      return;
     }
+
+    this.aluraPicService.Blocked.Post({
+      networkip: this.networkip,
+      created_at: new Date(),
+      updated_at: new Date(),
+    });
   }
 
   public RegisterUser(): void {
-    console.log(this.username);
+    if (!this.username) {
+      Alert.Warning('Enter with a username');
+      return;
+    }
+
+    this.aluraPicService.User.GetByUserName(this.username)
+      .then((exist) => {
+        if (!exist.IsSuccess) {
+          Alert.Warning(exist.Message);
+          return;
+        }
+
+        if (exist.Content && exist.Content.length) {
+          Alert.Warning('Already exists account with this username');
+          return;
+        }
+
+        this.aluraPicService.User.Post({
+          username: this.username,
+          password: this.password,
+          created_at: new Date(),
+          updated_at: new Date(),
+        })
+          .then((response) => {
+            this.router.navigate(['/login']);
+            Alert.Success('Account created!! Please login in the site...');
+          })
+          .catch((error) => Alert.Danger(error.Message));
+      })
+      .catch((err) => Alert.Danger(err.message));
   }
 
   private _getRandomDegrees(range: number): number {

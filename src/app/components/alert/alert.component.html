@@ -1,0 +1,9 @@
+<div
+  *ngIf="show | async"
+  role="alert"
+  class="alert alert-{{ variant | async }}"
+>
+  <span>{{ message | async }}</span>
+
+  <i class="bi bi-x-lg" (click)="Hide()"></i>
+</div>
