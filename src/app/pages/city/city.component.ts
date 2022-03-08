@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import Cidade from 'src/app/services/provacandidato/cidade/dtos/cidade';
-import { ProvaCandidatoService } from 'src/app/services/provacandidato/provacandidato.service';
+import { AppStore } from 'src/app/app.component';
+import { AppStoreData } from 'src/app/app.store';
+import { Alert } from 'src/app/components/alert/alert.component';
+import { AluraPicService } from 'src/app/services/alurapic/alurapic.service';
+import City from 'src/app/services/alurapic/cities/dtos/city';
+import { CityStoreData } from './city.store';
+
+export const CityStore = new CityStoreData();
 
 @Component({
   selector: 'app-city-component',
@@ -8,19 +14,40 @@ import { ProvaCandidatoService } from 'src/app/services/provacandidato/provacand
   styleUrls: ['./city.component.less'],
 })
 export class CityComponent implements OnInit {
-  public cities: Cidade[] = [];
+  public appStore: AppStoreData = AppStore;
 
-  constructor(private apiProvaCandidatoService: ProvaCandidatoService) {}
+  public cities: City[];
 
-  ngOnInit(): void {
-    this.apiProvaCandidatoService.Cidade.GetAll()
-      .then((data) => {
-        if (!data.IsSuccess) {
-          console.log(data);
+  constructor(private readonly aluraPicService: AluraPicService) {
+    this.cities = [];
+  }
+
+  public ngOnInit(): void {
+    this.RefreshCityList();
+  }
+
+  public RefreshCityList(): void {
+    this.aluraPicService.City.GetAll()
+      .then((response) => {
+        if (!response.IsSuccess) {
+          Alert.Danger('Fail to recovery the cities');
+          return;
         }
 
-        if (data.Content) this.cities = data.Content;
+        this.cities = response.Content ?? [];
       })
-      .catch((err) => console.error(err));
+      .catch((error) => Alert.Danger(error.message));
+  }
+
+  public Filter(): void {}
+
+  public EditCity(id?: number): void {
+    CityStore.SetCityId(id ?? 0);
+    document.getElementById('BtnOpenUpdateCityModal')?.click();
+  }
+
+  public DeleteCity(id?: number): void {
+    CityStore.SetCityId(id ?? 0);
+    document.getElementById('BtnOpenDeleteCityModal')?.click();
   }
 }

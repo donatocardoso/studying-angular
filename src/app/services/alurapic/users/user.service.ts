@@ -40,6 +40,24 @@ export class UserService {
     return ApiReturn.Success('Sucesso', await response.json());
   }
 
+  public async GetByUserNameAndPassword(
+    username: string,
+    password: string
+  ): Promise<IApiReturn<User>> {
+    const response = await fetch(
+      `${this.baseURL}/users?username=${username}&password=${password}`,
+      {
+        method: 'GET',
+      }
+    );
+
+    if (!response.ok) {
+      return ApiReturn.Fail(response.statusText);
+    }
+
+    return ApiReturn.Success('Sucesso', await response.json());
+  }
+
   public async Post(user: User): Promise<IApiReturn> {
     const response = await fetch(`${this.baseURL}/users`, {
       method: 'POST',

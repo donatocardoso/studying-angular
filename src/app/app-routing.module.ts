@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginGuard } from './pages/login/login.guard';
+import { AppGuard } from './app.guard';
+import { LoginGuard } from './layouts/login/login.guard';
 
 const routes: Routes = [
   {
@@ -15,19 +16,16 @@ const routes: Routes = [
       import('./layouts/login/login.module').then((m) => m.LoginLayoutModule),
   },
   {
-    path: 'home',
+    path: 'admin',
+    canLoad: [AppGuard],
     loadChildren: () =>
-      import('./pages/home/home.module').then((m) => m.HomeModule),
+      import('./layouts/admin/admin.module').then((m) => m.AdminLayoutModule),
   },
   {
-    path: 'city',
+    path: 'user',
+    canLoad: [AppGuard],
     loadChildren: () =>
-      import('./pages/city/city.module').then((m) => m.CityModule),
-  },
-  {
-    path: 'client',
-    loadChildren: () =>
-      import('./pages/client/client.module').then((m) => m.ClientModule),
+      import('./layouts/user/user.module').then((m) => m.UserLayoutModule),
   },
 ];
 

@@ -1,5 +1,5 @@
 <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-primary">
-  <a class="navbar-brand" routerLink="/home" routerLinkActive="active">
+  <a class="navbar-brand" routerLink="{{ baseUrl }}" routerLinkActive="active">
     <img
       width="40"
       alt="Angular Logo"
@@ -7,9 +7,9 @@
     />
   </a>
 
-  <a class="navbar-brand" routerLink="/" routerLinkActive="active"
-    >Angular</a
-  >
+  <a class="navbar-brand" routerLink="{{ baseUrl }}" routerLinkActive="active">
+    Angular
+  </a>
 
   <button
     class="navbar-toggler"
@@ -29,15 +29,15 @@
   >
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" routerLink="/" routerLinkActive="active">Home</a>
+        <a class="nav-link" routerLink="{{ baseUrl }}"> Home </a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" routerLink="/city">City</a>
+        <a class="nav-link" routerLink="{{ baseUrl }}/client">Client</a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" routerLink="/client">Client</a>
+        <a class="nav-link" routerLink="{{ baseUrl }}/city">City</a>
       </li>
     </ul>
   </div>

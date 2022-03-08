@@ -4,3 +4,22 @@ body {
   height: 100%;
   display: grid;
 }
+
+.hidden {
+  display: none;
+}
+
+td.actions {
+  display: flex;
+  justify-content: space-evenly;
+
+  a {
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      cursor: pointer;
+      filter: brightness(80%);
+      transform: scale(1.1);
+    }
+  }
+}

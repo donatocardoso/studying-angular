@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ProvaCandidatoService } from 'src/app/services/provacandidato/provacandidato.service';
+import { Alert } from 'src/app/components/alert/alert.component';
+import { AluraPicService } from 'src/app/services/alurapic/alurapic.service';
+import Client from 'src/app/services/alurapic/clients/dtos/client';
 
 @Component({
   selector: 'app-client-component',
@@ -7,11 +9,22 @@ import { ProvaCandidatoService } from 'src/app/services/provacandidato/provacand
   styleUrls: ['./client.component.less'],
 })
 export class ClientComponent implements OnInit {
-  constructor(private apiProvaCandidatoService: ProvaCandidatoService) {}
+  public clients: Client[];
 
-  ngOnInit(): void {
-    const clientes = this.apiProvaCandidatoService.Cliente.GetAll();
+  constructor(private readonly aluraPicService: AluraPicService) {
+    this.clients = [];
+  }
 
-    console.log(clientes);
+  public ngOnInit(): void {
+    this.aluraPicService.Client.GetAll()
+      .then((response) => {
+        if (!response.IsSuccess) {
+          Alert.Danger('Fail to recovery the cities');
+          return;
+        }
+
+        this.clients = response.Content ?? [];
+      })
+      .catch((error) => Alert.Danger(error.message));
   }
 }

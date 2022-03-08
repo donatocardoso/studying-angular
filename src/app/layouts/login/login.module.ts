@@ -7,7 +7,7 @@ import { LoginLayout } from './login.layout';
 
 @NgModule({
   declarations: [LoginLayout],
-  imports: [CommonModule, LoginRoutingModule, ComponentModule, LoginModule],
+  imports: [CommonModule, ComponentModule, LoginRoutingModule, LoginModule],
   exports: [LoginLayout],
 })
 export class LoginLayoutModule {}

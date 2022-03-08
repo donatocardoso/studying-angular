@@ -1,17 +1,25 @@
+import { CommonModule } from '@angular/common';
 import { DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 import { ComponentModule } from './components/componet.module';
-import { LoginLayout } from './layouts/login/login.layout';
+import { AdminLayoutModule } from './layouts/admin/admin.module';
+import { LoginLayoutModule } from './layouts/login/login.module';
+import { UserLayoutModule } from './layouts/user/user.module';
 
 @NgModule({
-  declarations: [],
+  declarations: [AppComponent],
   imports: [
+    CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     ComponentModule,
+    LoginLayoutModule,
+    AdminLayoutModule,
+    UserLayoutModule,
   ],
   providers: [
     {
@@ -23,6 +31,6 @@ import { LoginLayout } from './layouts/login/login.layout';
       useValue: 'BRL',
     },
   ],
-  bootstrap: [LoginLayout],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

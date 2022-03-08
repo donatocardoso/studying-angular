@@ -1,0 +1,71 @@
+<div class="modal fade" id="AddCityModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="add-city-modal" class="modal-title">Add City</h5>
+
+        <button
+          id="BtnCloseAddCityModal"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="input-group mb-3">
+          <span class="col-3 input-group-text">Name</span>
+          <input
+            [ngModel]="name"
+            (ngModelChange)="name = $event.toUpperCase().trim()"
+            type="text"
+            class="form-control"
+            placeholder="Name"
+            aria-label="Name"
+            required
+            maxlength="25"
+          />
+        </div>
+
+        <div class="input-group mb-3">
+          <span class="col-3 input-group-text">State</span>
+          <input
+            [ngModel]="state"
+            (ngModelChange)="state = $event.toUpperCase().trim()"
+            type="text"
+            class="form-control"
+            placeholder="State"
+            aria-label="State"
+            required
+            maxlength="25"
+          />
+        </div>
+
+        <div class="input-group mb-3">
+          <span class="col-3 input-group-text">Country</span>
+          <input
+            [ngModel]="country"
+            (ngModelChange)="country = $event.toUpperCase().trim()"
+            type="text"
+            class="form-control"
+            placeholder="Country"
+            aria-label="Country"
+            required
+            maxlength="25"
+          />
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+
+        <button type="button" class="btn btn-success" (click)="Save()">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

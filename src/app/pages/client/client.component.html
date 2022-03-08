@@ -1,1 +1,35 @@
-Clientes
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Clients</h5>
+
+    <table
+      class="table table-borderless table-primary table-striped table-hover"
+    >
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Name</th>
+          <th scope="col">City</th>
+          <th scope="col">Created At</th>
+          <th scope="col">Updated At</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngIf="!clients || !clients.length">
+          <td colspan="6">Don't find any client</td>
+        </tr>
+
+        <tr *ngFor="let client of clients">
+          <td>#{{ client.id }}</td>
+          <td>{{ client.name }}</td>
+          <td>{{ client.city.name }}</td>
+          <td>{{ client.created_at }}</td>
+          <td>{{ client.updated_at }}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

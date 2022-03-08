@@ -1,0 +1,5 @@
+<app-login-layout *ngIf="!(isLogged$ | async)"></app-login-layout>
+
+<app-admin-layout *ngIf="isLogged$ && isAdmin$ | async"></app-admin-layout>
+
+<app-user-layout *ngIf="isLogged$ && isUser$ | async"></app-user-layout>

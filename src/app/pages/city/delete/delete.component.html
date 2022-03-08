@@ -1,0 +1,37 @@
+<div class="modal fade" id="DeleteCityModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="add-city-modal" class="modal-title">
+          Delete City <b>#{{ city?.id }}</b>
+        </h5>
+
+        <button
+          id="BtnCloseDeleteCityModal"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          <span>You want to delete the city</span>
+          <b> {{ city?.name }}, {{ city?.state }} - {{ city?.country }} </b>
+          <span>?</span>
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+
+        <button type="button" class="btn btn-danger" (click)="Delete()">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

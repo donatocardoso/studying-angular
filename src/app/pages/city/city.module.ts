@@ -1,11 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CityRoutingModule } from './city-routing.module';
+import { FormsModule } from '@angular/forms';
+import { AddComponent } from './add/add.component';
 import { CityComponent } from './city.component';
+import { DeleteComponent } from './delete/delete.component';
+import { UpdateComponent } from './update/update.component';
 
 @NgModule({
-  declarations: [CityComponent],
-  imports: [CommonModule, CityRoutingModule],
+  declarations: [CityComponent, AddComponent, UpdateComponent, DeleteComponent],
+  imports: [CommonModule, FormsModule],
   exports: [CityComponent],
 })
 export class CityModule {}
