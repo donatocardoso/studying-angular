@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppStore } from 'src/app/app.component';
+import { AppStoreData } from 'src/app/app.store';
 import { Alert } from 'src/app/components/alert/alert.component';
+import UserType from 'src/app/enums/UserType';
 import { AluraPicService } from 'src/app/services/alurapic/alurapic.service';
 
 @Component({
@@ -9,6 +12,8 @@ import { AluraPicService } from 'src/app/services/alurapic/alurapic.service';
   styleUrls: ['./login.component.less'],
 })
 export class LoginComponent {
+  public appStore: AppStoreData = AppStore;
+
   public username: string = '';
   public password: string = '';
 
@@ -22,8 +27,26 @@ export class LoginComponent {
       this.username,
       this.password
     )
-      .then((data) => {
-        this.router.navigate(['/user/home']);
+      .then((response) => {
+        if (!response.IsSuccess || !response.Content) {
+          Alert.Danger(response.Message);
+          return;
+        }
+
+        this.appStore.Login(response.Content);
+
+        switch (response.Content.user_type) {
+          case UserType.Admin:
+            this.router.navigate(['/admin/home']);
+            break;
+
+          case UserType.User:
+            this.router.navigate(['/user/home']);
+            break;
+
+          default:
+            this.router.navigate(['/user/home']);
+        }
       })
       .catch((error) => Alert.Danger('Username and/or password is incorrect'));
   }

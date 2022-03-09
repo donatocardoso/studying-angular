@@ -1,3 +1,4 @@
+import UserType from 'src/app/enums/UserType';
 import ApiReturn, { IApiReturn } from '../api.return';
 import User from './dtos/user';
 
@@ -13,7 +14,7 @@ export class UserService {
       return ApiReturn.Fail(response.statusText);
     }
 
-    return ApiReturn.Success('Sucesso', await response.json());
+    return ApiReturn.Success('Sucesso', (await response.json()) as User[]);
   }
 
   public async GetById(id: number): Promise<IApiReturn<User>> {
@@ -25,11 +26,13 @@ export class UserService {
       return ApiReturn.Fail(response.statusText);
     }
 
-    return ApiReturn.Success('Sucesso', await response.json());
+    return ApiReturn.Success('Sucesso', (await response.json()) as User);
   }
 
   public async GetByUserName(username: string): Promise<IApiReturn<User[]>> {
-    const response = await fetch(`${this.baseURL}/users?username=${username}`, {
+    const params = new URLSearchParams({ username });
+
+    const response = await fetch(`${this.baseURL}/users?${params.toString()}`, {
       method: 'GET',
     });
 
@@ -37,25 +40,26 @@ export class UserService {
       return ApiReturn.Fail(response.statusText);
     }
 
-    return ApiReturn.Success('Sucesso', await response.json());
+    return ApiReturn.Success('Sucesso', (await response.json()) as User[]);
   }
 
   public async GetByUserNameAndPassword(
     username: string,
     password: string
   ): Promise<IApiReturn<User>> {
-    const response = await fetch(
-      `${this.baseURL}/users?username=${username}&password=${password}`,
-      {
-        method: 'GET',
-      }
-    );
+    const params = new URLSearchParams({ username, password });
+
+    const response = await fetch(`${this.baseURL}/users?${params.toString()}`, {
+      method: 'GET',
+    });
 
     if (!response.ok) {
       return ApiReturn.Fail(response.statusText);
     }
 
-    return ApiReturn.Success('Sucesso', await response.json());
+    const users = (await response.json()) as User[];
+
+    return ApiReturn.Success('Sucesso', users[0]);
   }
 
   public async Post(user: User): Promise<IApiReturn> {
@@ -64,7 +68,12 @@ export class UserService {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify({
+        ...user,
+        user_type: UserType.User,
+        created_at: new Date(),
+        updated_at: new Date(),
+      }),
     });
 
     if (!response.ok) {
@@ -77,7 +86,13 @@ export class UserService {
   public async Put(id: number, user: User): Promise<IApiReturn> {
     const response = await fetch(`${this.baseURL}/users/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(user),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...user,
+        updated_at: new Date(),
+      }),
     });
 
     if (!response.ok) {
