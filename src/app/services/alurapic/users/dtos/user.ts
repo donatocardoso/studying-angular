@@ -4,7 +4,7 @@ export default interface User {
   id?: string;
   username: string;
   password: string;
-  user_type?: UserType;
-  created_at?: Date;
-  updated_at?: Date;
+  userType?: UserType;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

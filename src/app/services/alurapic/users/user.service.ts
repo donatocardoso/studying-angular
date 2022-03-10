@@ -1,3 +1,4 @@
+import moment from 'moment';
 import UserType from 'src/app/enums/UserType';
 import ApiReturn, { IApiReturn } from '../api.return';
 import User from './dtos/user';
@@ -70,9 +71,9 @@ export class UserService {
       },
       body: JSON.stringify({
         ...user,
-        user_type: UserType.User,
-        created_at: new Date(),
-        updated_at: new Date(),
+        userType: UserType.User,
+        createdAt: moment().toISOString(true),
+        updatedAt: moment().toISOString(true)
       }),
     });
 
@@ -91,7 +92,7 @@ export class UserService {
       },
       body: JSON.stringify({
         ...user,
-        updated_at: new Date(),
+        updatedAt: moment().toISOString(true)
       }),
     });
 

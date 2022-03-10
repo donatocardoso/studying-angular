@@ -1,3 +1,5 @@
+import moment from 'moment';
+import CityFilter from 'src/app/services/alurapic/cities/dtos/city.filter';
 import ApiReturn, { IApiReturn } from '../api.return';
 import City from './dtos/city';
 
@@ -13,7 +15,24 @@ export class CityService {
       return ApiReturn.Fail(response.statusText);
     }
 
-    return ApiReturn.Success('Sucesso', await response.json());
+    return ApiReturn.Success('Sucesso', (await response.json()) as City[]);
+  }
+
+  public async GetByFilter(filters: CityFilter): Promise<IApiReturn<City[]>> {
+    const params = new URLSearchParams(JSON.parse(JSON.stringify(filters)));
+
+    const response = await fetch(
+      `${this.baseURL}/cities?${params.toString()}`,
+      {
+        method: 'GET',
+      }
+    );
+
+    if (!response.ok) {
+      return ApiReturn.Fail(response.statusText);
+    }
+
+    return ApiReturn.Success('Sucesso', (await response.json()) as City[]);
   }
 
   public async GetById(id: number): Promise<IApiReturn<City>> {
@@ -25,7 +44,9 @@ export class CityService {
       return ApiReturn.Fail(response.statusText);
     }
 
-    return ApiReturn.Success('Sucesso', await response.json());
+    const cities = (await response.json()) as City[];
+
+    return ApiReturn.Success('Sucesso', cities[0]);
   }
 
   public async Post(city: City): Promise<IApiReturn> {
@@ -36,8 +57,8 @@ export class CityService {
       },
       body: JSON.stringify({
         ...city,
-        created_at: new Date(),
-        updated_at: new Date(),
+        createdAt: moment().toISOString(true),
+        updatedAt: moment().toISOString(true),
       }),
     });
 
@@ -56,7 +77,7 @@ export class CityService {
       },
       body: JSON.stringify({
         ...city,
-        updated_at: new Date(),
+        updatedAt: moment().toISOString(true),
       }),
     });
 

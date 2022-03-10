@@ -1,0 +1,124 @@
+<div class="modal fade" id="FilterCityModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="add-city-modal" class="modal-title">Filter Cities</h5>
+
+        <button
+          id="BtnCloseFilterCityModal"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="input-group mb-3">
+          <span class="col-3 input-group-text">Id</span>
+          <input
+            [(ngModel)]="city.id"
+            type="number"
+            class="form-control"
+            placeholder="Id"
+            aria-label="Id"
+            required
+            maxlength="5"
+          />
+        </div>
+
+        <div class="input-group mb-3">
+          <span class="col-3 input-group-text">Name</span>
+          <input
+            [ngModel]="city.name_like"
+            (ngModelChange)="city.name_like = $event.toUpperCase().trim()"
+            type="text"
+            class="form-control"
+            placeholder="Name"
+            aria-label="Name"
+            required
+            maxlength="25"
+          />
+        </div>
+
+        <div class="input-group mb-3">
+          <span class="col-3 input-group-text">State</span>
+          <input
+            [ngModel]="city.state_like"
+            (ngModelChange)="city.state_like = $event.toUpperCase().trim()"
+            type="text"
+            class="form-control"
+            placeholder="State"
+            aria-label="State"
+            required
+            maxlength="25"
+          />
+        </div>
+
+        <div class="input-group mb-3">
+          <span class="col-3 input-group-text">Country</span>
+          <input
+            [ngModel]="city.country_like"
+            (ngModelChange)="city.country_like = $event.toUpperCase().trim()"
+            type="text"
+            class="form-control"
+            placeholder="Country"
+            aria-label="Country"
+            required
+            maxlength="25"
+          />
+        </div>
+
+        <div class="input-group mb-3">
+          <span class="col-3 input-group-text">Created At</span>
+          <input
+            [ngModel]="city.createdAt_gte ?? ''"
+            (ngModelChange)="city.createdAt_gte = $event"
+            type="date"
+            class="form-control"
+            placeholder="Created At"
+            aria-label="Created At"
+            required
+            maxlength="10"
+          />
+        </div>
+
+        <div class="input-group mb-3">
+          <span class="col-3 input-group-text">Updated At</span>
+          <input
+            [ngModel]="city.updatedAt_gte ?? ''"
+            (ngModelChange)="city.updatedAt_gte = $event"
+            type="date"
+            class="form-control"
+            placeholder="Updated At"
+            aria-label="Updated At"
+            required
+            maxlength="10"
+          />
+        </div>
+      </div>
+
+      <div class="modal-footer justify-content-between">
+        <div class="left">
+          <button type="button" class="btn btn-warning" (click)="city = {}">
+            Clear
+          </button>
+        </div>
+
+        <div class="right">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+
+          <button type="button" class="btn btn-success" (click)="Filter()">
+            Filter
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

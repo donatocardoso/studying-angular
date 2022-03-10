@@ -3,7 +3,7 @@ import { CanLoad, Route, Router, UrlSegment, UrlTree } from '@angular/router';
 import moment from 'moment';
 import { Observable } from 'rxjs';
 import { AppStore } from 'src/app/app.component';
-import { AppStoreData } from 'src/app/app.store';
+import { AppStoreType } from 'src/app/app.store';
 import { AluraPicService } from 'src/app/services/alurapic/alurapic.service';
 import { IfConfigMeService } from 'src/app/services/ifconfig.me/ifconfig.me.service';
 
@@ -11,8 +11,6 @@ import { IfConfigMeService } from 'src/app/services/ifconfig.me/ifconfig.me.serv
   providedIn: 'root',
 })
 export class LoginGuard implements CanLoad {
-  public appStore: AppStoreData = AppStore;
-
   constructor(
     private router: Router,
     private ifConfigMeService: IfConfigMeService,
@@ -28,18 +26,41 @@ export class LoginGuard implements CanLoad {
     | boolean
     | UrlTree {
     return new Promise((resolve, reject) => {
-      this.appStore.GetStore().subscribe({
+      const alurapic = localStorage.getItem('alurapic');
+
+      if (alurapic) {
+        const store = JSON.parse(alurapic) as AppStoreType;
+
+        if (store.user) {
+          AppStore.Login(store.user);
+        }
+        if (store.isLogged) {
+          if (store.isAdmin) {
+            this.router.navigate(['/admin/home']);
+            resolve(false);
+            return;
+          }
+
+          if (store.isUser) {
+            this.router.navigate(['/admin/home']);
+            resolve(false);
+            return;
+          }
+        }
+      }
+
+      AppStore.GetStore().subscribe({
         next: async (store) => {
           if (store.isLogged) {
             if (store.isAdmin) {
               this.router.navigate(['/admin/home']);
-              reject(false);
+              resolve(false);
               return;
             }
 
             if (store.isUser) {
               this.router.navigate(['/admin/home']);
-              reject(false);
+              resolve(false);
               return;
             }
           }
@@ -47,14 +68,14 @@ export class LoginGuard implements CanLoad {
           const config = await this.ifConfigMeService.AllJson();
 
           if (!config.ok) {
-            reject(false);
+            resolve(false);
             return;
           }
 
           const networkip = (await config.json())['ip_addr'];
 
           if (!networkip) {
-            reject(false);
+            resolve(false);
             return;
           }
 
@@ -63,13 +84,13 @@ export class LoginGuard implements CanLoad {
           );
 
           if (!block.IsSuccess) {
-            reject(false);
+            resolve(false);
             return;
           }
 
           if (block.Content) {
             const hasBlocked = block.Content.filter((it) => {
-              const diffMinutes = moment().diff(it.created_at, 'minutes');
+              const diffMinutes = moment().diff(it.createdAt, 'minutes');
 
               return diffMinutes < 5;
             });
@@ -82,13 +103,13 @@ export class LoginGuard implements CanLoad {
 
               this.router.navigate(['/login']);
 
-              reject(false);
+              resolve(false);
               return;
             } else {
               if (hasBlocked && hasBlocked.length) {
                 this.router.navigate(['/login/blocked']);
 
-                reject(false);
+                resolve(false);
                 return;
               }
             }
@@ -96,6 +117,7 @@ export class LoginGuard implements CanLoad {
 
           resolve(true);
         },
+        error: (err) => reject(err),
       });
     });
   }

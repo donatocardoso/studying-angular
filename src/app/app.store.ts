@@ -33,14 +33,24 @@ export class AppStoreData extends ComponentStore<AppStoreType> {
 
   readonly GetStore = () => this.select((state) => state);
 
-  readonly Login = this.updater((state, user: User) => ({
-    ...state,
-    isLogged: true,
-    isAdmin: user.user_type === UserType.Admin,
-    isUser: user.user_type === UserType.User,
+  readonly Login = this.updater((state, user: User) => {
+    const newState = {
+      ...state,
+      isLogged: true,
+      isAdmin: user.userType === UserType.Admin,
+      isUser: user.userType === UserType.User,
 
-    user: user,
-  }));
+      user: user,
+    };
 
-  readonly Logout = this.updater((state) => ({ ...INITIAL_STATE }));
+    localStorage.setItem('alurapic', JSON.stringify(newState));
+
+    return newState;
+  });
+
+  readonly Logout = this.updater((state) => {
+    localStorage.removeItem('alurapic');
+
+    return INITIAL_STATE;
+  });
 }

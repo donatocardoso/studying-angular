@@ -1,3 +1,5 @@
+<filter-city-modal (onFilterCityList)="Filter($event)"></filter-city-modal>
+
 <add-city-modal (onRefreshCityList)="RefreshCityList()"></add-city-modal>
 
 <button
@@ -24,7 +26,15 @@
 
     <div class="my-4 header">
       <div>
-        <button class="btn btn-info" (click)="Filter()">Filter</button>
+        <button
+          id="BtnOpenFilterCityModal"
+          type="button"
+          class="btn btn-info"
+          data-bs-toggle="modal"
+          data-bs-target="#FilterCityModal"
+        >
+          Filter
+        </button>
       </div>
 
       <button
@@ -71,8 +81,8 @@
             <td>{{ city.name }}</td>
             <td>{{ city.state }}</td>
             <td>{{ city.country }}</td>
-            <td>{{ city.created_at | date: "dd/MM/yyyy HH:mm" }}</td>
-            <td>{{ city.updated_at | date: "dd/MM/yyyy HH:mm" }}</td>
+            <td>{{ city.createdAt | date: "dd/MM/yyyy HH:mm" }}</td>
+            <td>{{ city.updatedAt | date: "dd/MM/yyyy HH:mm" }}</td>
             <td class="actions" *ngIf="appStore.isAdmin$ | async">
               <a (click)="EditCity(city.id)">
                 <i class="bi bi-pencil-square text-success"></i>

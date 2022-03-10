@@ -5,16 +5,16 @@
       "name": "FRANCA",
       "state": "SAO PAULO",
       "country": "BRASIL",
-      "created_at": "2022-03-09T14:07:13.963Z",
-      "updated_at": "2022-03-09T14:07:13.963Z",
+      "createdAt": "2022-03-08T14:07:13.963-03:00",
+      "updatedAt": "2022-03-08T14:07:13.963-03:00",
       "id": 1
     },
     {
       "name": "BATATAIS",
       "state": "SAO PAULO",
       "country": "BRASIL",
-      "created_at": "2022-03-09T14:08:13.963Z",
-      "updated_at": "2022-03-09T14:08:13.963Z",
+      "createdAt": "2022-03-09T14:08:13.963-03:00",
+      "updatedAt": "2022-03-09T14:08:13.963-03:00",
       "id": 2
     }
   ],
@@ -23,17 +23,17 @@
     {
       "username": "davila",
       "password": "123456+",
-      "user_type": 1,
-      "created_at": "2022-03-02T12:48:39.642Z",
-      "updated_at": "2022-03-02T12:48:39.642Z",
+      "userType": 1,
+      "createdAt": "2022-03-02T12:48:39.642-03:00",
+      "updatedAt": "2022-03-02T12:48:39.642-03:00",
       "id": 1
     },
     {
       "username": "bruno",
       "password": "123456+",
-      "user_type": 2,
-      "created_at": "2022-03-02T12:48:39.642Z",
-      "updated_at": "2022-03-02T12:48:39.642Z",
+      "userType": 2,
+      "createdAt": "2022-03-02T12:48:39.642-03:00",
+      "updatedAt": "2022-03-02T12:48:39.642-03:00",
       "id": 2
     }
   ]

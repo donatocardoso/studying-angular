@@ -3,6 +3,6 @@ export default interface City {
   name: string;
   state: string;
   country: string;
-  created_at?: Date;
-  updated_at?: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

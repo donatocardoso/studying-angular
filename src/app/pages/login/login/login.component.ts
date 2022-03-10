@@ -35,7 +35,7 @@ export class LoginComponent {
 
         this.appStore.Login(response.Content);
 
-        switch (response.Content.user_type) {
+        switch (response.Content.userType) {
           case UserType.Admin:
             this.router.navigate(['/admin/home']);
             break;

@@ -124,8 +124,6 @@ export class SignUpComponent implements OnInit {
 
     this.aluraPicService.Blocked.Post({
       networkip: this.networkip,
-      created_at: new Date(),
-      updated_at: new Date(),
     });
   }
 
@@ -150,8 +148,6 @@ export class SignUpComponent implements OnInit {
         this.aluraPicService.User.Post({
           username: this.username,
           password: this.password,
-          created_at: new Date(),
-          updated_at: new Date(),
         })
           .then((response) => {
             this.router.navigate(['/login']);

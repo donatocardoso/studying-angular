@@ -4,6 +4,6 @@ export default interface Client {
   id?: string;
   name: string;
   city: City;
-  created_at: Date;
-  updated_at: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }

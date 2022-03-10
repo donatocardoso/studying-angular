@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxMaskModule } from 'ngx-mask';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ComponentModule } from './components/componet.module';
@@ -20,6 +21,7 @@ import { UserLayoutModule } from './layouts/user/user.module';
     LoginLayoutModule,
     AdminLayoutModule,
     UserLayoutModule,
+    NgxMaskModule.forRoot()
   ],
   providers: [
     {
