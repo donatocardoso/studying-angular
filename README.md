@@ -105,33 +105,43 @@ First, you must solve challenges to get a secure password to access the software
 
 Below you will see an example:
 
-<div style="margin-bottom: 25px;">
-  <b>Route: /login</b>
-  <img style="display: block;" src="./docs/imgs/localhost_4200_login.png" alt="Login Screen"/>
-  <i>Here you will authenticate in the software</i>
-</div>
+<p>
+  <div style="margin-bottom: 25px;">
+    <b>Route: /login</b>
+    <img style="display: block;" src="./docs/imgs/localhost_4200_login.png" alt="Login Screen"/>
+    <i>Here you will authenticate in the software</i>
+  </div>
+<p>
 
-<div style="margin-bottom: 25px;">
-  <b>Route: /login/signup</b>
-  <img style="display: block;" src="./docs/imgs/localhost_4200_login_signup.png" alt="Login Signup Screen"/>
-  <i>Here you will take a test, if you have logical intelligence you will pass</i>
-</div>
+<p>
+  <div>
+    <b>Route: /login/signup</b>
+    <img style="display: block;" src="./docs/imgs/localhost_4200_login_signup.png" alt="Login Signup Screen"/>
+    <i>Here you will take a test, if you have logical intelligence you will pass</i>
+  </div>
+</p>
 
-<div style="margin-bottom: 25px;">
-  <b>Route: /login/signup</b>
-  <img style="display: block;" src="./docs/imgs/localhost_4200_login_signup_approved.png" alt="Login Screen"/>
-  <i>Here you have passed the test and must register a username. Note: Save the test answer, because it's your password</i>
-</div>
+<p>
+  <div>
+    <b>Route: /login/signup</b>
+    <img style="display: block;" src="./docs/imgs/localhost_4200_login_signup_approved.png" alt="Login Screen"/>
+    <i>Here you have passed the test and must register a username. Note: Save the test answer, because it's your password</i>
+  </div>
+</p>
 
-<div style="margin-bottom: 25px;">
-  <b>Route: /login/blocked</b>
-  <img style="display: block;" src="./docs/imgs/localhost_4200_login_blocked.png" alt="Login Blocked Screen"/>
-  <i>Here you failed the test miserably and must be punished for this boldness.</i>
-</div>
+<p>
+  <div>
+    <b>Route: /login/blocked</b>
+    <img style="display: block;" src="./docs/imgs/localhost_4200_login_blocked.png" alt="Login Blocked Screen"/>
+    <i>Here you failed the test miserably and must be punished for this boldness.</i>
+  </div>
+</p>
 
 With the registered user and password, you can authenticate in the software and take advantage of its technologies and functionalities.
 
 But remember, with great power there are always great responsibilities...
-...
-...
+
+<p>...</p>
+<p>...</p>
+
 or not HAHAHAHAHAH
