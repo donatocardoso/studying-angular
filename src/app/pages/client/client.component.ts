@@ -31,8 +31,6 @@ export class ClientComponent implements OnInit {
   public RefreshClientList(): void {
     ClientStore.filters$.subscribe({
       next: async (filters) => {
-        console.log(filters);
-
         const cities = filters
           ? await this.aluraPicService.Client.GetByFilter(filters)
           : await this.aluraPicService.Client.GetAll();
@@ -48,7 +46,6 @@ export class ClientComponent implements OnInit {
   }
 
   public Filter(filters: ClientFilter): void {
-    console.log(filters);
     ClientStore.SetFilters({
       id: filters.id ? filters.id : undefined,
       name_like: filters.name_like ? filters.name_like : undefined,

@@ -125,6 +125,8 @@ export class SignUpComponent implements OnInit {
     this.aluraPicService.Blocked.Post({
       networkip: this.networkip,
     });
+
+    this.router.navigate(['/login/blocked']);
   }
 
   public RegisterUser(): void {

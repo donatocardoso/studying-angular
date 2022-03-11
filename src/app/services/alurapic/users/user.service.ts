@@ -60,6 +60,8 @@ export class UserService {
 
     const users = (await response.json()) as User[];
 
+    if (!users.length) return ApiReturn.Fail('Username and/or password wrong');
+
     return ApiReturn.Success('Sucesso', users[0]);
   }
 
@@ -73,7 +75,7 @@ export class UserService {
         ...user,
         userType: UserType.User,
         createdAt: moment().toISOString(true),
-        updatedAt: moment().toISOString(true)
+        updatedAt: moment().toISOString(true),
       }),
     });
 
@@ -92,7 +94,7 @@ export class UserService {
       },
       body: JSON.stringify({
         ...user,
-        updatedAt: moment().toISOString(true)
+        updatedAt: moment().toISOString(true),
       }),
     });
 

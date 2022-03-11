@@ -54,6 +54,12 @@ export class LoginGuard implements CanLoad {
             return resolve(true);
           }
 
+          if (fullPath === '/login/blocked') {
+            this.router.navigate(['/login']);
+
+            return resolve(false);
+          }
+
           return resolve(true);
         },
         error: (err) => reject(err),

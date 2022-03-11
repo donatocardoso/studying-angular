@@ -31,8 +31,6 @@ export class CityComponent implements OnInit {
   public RefreshCityList(): void {
     CityStore.filters$.subscribe({
       next: async (filters) => {
-        console.log(filters);
-
         const cities = filters
           ? await this.aluraPicService.City.GetByFilter(filters)
           : await this.aluraPicService.City.GetAll();

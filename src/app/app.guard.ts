@@ -27,9 +27,6 @@ export class AppGuard implements CanLoad {
 
           if (isRedirected) return resolve(false);
 
-          console.log('app.guard.ts', 35, fullPath);
-          console.log(store);
-
           if (store.isAdmin) {
             if (fullPath.startsWith('/admin')) return resolve(true);
 

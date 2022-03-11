@@ -70,7 +70,6 @@ export class ClientService {
   }
 
   public async Put(id: number, client: Client): Promise<IApiReturn> {
-    console.log(client);
     const response = await fetch(`${this.baseURL}/clients/${id}`, {
       method: 'PUT',
       headers: {
