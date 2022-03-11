@@ -1,5 +1,7 @@
+import moment from 'moment';
 import ApiReturn, { IApiReturn } from '../api.return';
 import Client from './dtos/client';
+import ClientFilter from './dtos/client.filter';
 
 export class ClientService {
   constructor(private baseURL: string) {}
@@ -14,6 +16,25 @@ export class ClientService {
     }
 
     return ApiReturn.Success('Sucesso', await response.json());
+  }
+
+  public async GetByFilter(
+    filters: ClientFilter
+  ): Promise<IApiReturn<Client[]>> {
+    const params = new URLSearchParams(JSON.parse(JSON.stringify(filters)));
+
+    const response = await fetch(
+      `${this.baseURL}/clients?${params.toString()}`,
+      {
+        method: 'GET',
+      }
+    );
+
+    if (!response.ok) {
+      return ApiReturn.Fail(response.statusText);
+    }
+
+    return ApiReturn.Success('Sucesso', (await response.json()) as Client[]);
   }
 
   public async GetById(id: number): Promise<IApiReturn<Client>> {
@@ -34,7 +55,11 @@ export class ClientService {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(client),
+      body: JSON.stringify({
+        ...client,
+        createdAt: moment().toISOString(true),
+        updatedAt: moment().toISOString(true),
+      }),
     });
 
     if (!response.ok) {
@@ -45,9 +70,16 @@ export class ClientService {
   }
 
   public async Put(id: number, client: Client): Promise<IApiReturn> {
+    console.log(client);
     const response = await fetch(`${this.baseURL}/clients/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(client),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...client,
+        updatedAt: moment().toISOString(true),
+      }),
     });
 
     if (!response.ok) {

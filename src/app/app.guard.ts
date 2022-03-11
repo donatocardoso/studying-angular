@@ -18,39 +18,26 @@ export class AppGuard implements CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    const fullPath = segments.map((segment) => segment.path).join('/');
-
-    const alurapic = localStorage.getItem('alurapic');
-    if (alurapic) {
-      const store = JSON.parse(alurapic) as AppStoreType;
-
-      if (store.user) {
-        AppStore.Login(store.user);
-      }
-    }
+    const fullPath = `/${segments.map((segment) => segment.path).join('/')}`;
 
     return new Promise<boolean>((resolve, reject) => {
       AppStore.GetStore().subscribe({
         next: (store) => {
-          if (!store.isLogged) {
-            this.router.navigate(['/login']);
+          const isRedirected = this.tryRedirectToLogin(fullPath, store);
 
-            return resolve(false);
-          }
+          if (isRedirected) return resolve(false);
 
           console.log('app.guard.ts', 35, fullPath);
           console.log(store);
 
           if (store.isAdmin) {
-            if (fullPath === 'admin') return resolve(true);
-            if (fullPath.includes('admin/')) return resolve(true);
+            if (fullPath.startsWith('/admin')) return resolve(true);
 
             return resolve(false);
           }
 
           if (store.isUser) {
-            if (fullPath === 'user') return resolve(true);
-            if (fullPath.includes('user/')) return resolve(true);
+            if (fullPath.startsWith('/user')) return resolve(true);
 
             return resolve(false);
           }
@@ -58,5 +45,25 @@ export class AppGuard implements CanLoad {
         error: (err) => reject(err),
       });
     });
+  }
+
+  tryRedirectToLogin(fullPath: string, store: AppStoreType): boolean {
+    if (!store.isLogged) {
+      const alurapic = localStorage.getItem('alurapic');
+
+      if (alurapic) {
+        const store = JSON.parse(alurapic) as AppStoreType;
+
+        if (store.user) AppStore.Login(store.user);
+
+        return this.tryRedirectToLogin(fullPath, store);
+      }
+
+      this.router.navigate(['/login']);
+
+      return true;
+    }
+
+    return false;
   }
 }

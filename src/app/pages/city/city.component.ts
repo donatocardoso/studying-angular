@@ -48,8 +48,6 @@ export class CityComponent implements OnInit {
   }
 
   public Filter(filters: CityFilter): void {
-    console.log(filters);
-
     CityStore.SetFilters({
       id: filters.id ? filters.id : undefined,
       name_like: filters.name_like ? filters.name_like : undefined,

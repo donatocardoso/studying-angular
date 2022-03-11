@@ -1,0 +1,41 @@
+<div class="modal fade" id="DeleteClientModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="add-client-modal" class="modal-title">
+          Delete Client <b>#{{ client?.id }}</b>
+        </h5>
+
+        <button
+          id="BtnCloseDeleteClientModal"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          <span>You want to delete the client</span>
+          <b> {{ client.name }} </b> from
+          <b>
+            {{ client.city?.name }}, {{ client.city?.state }} -
+            {{ client.city?.country }}</b
+          >
+          <span>?</span>
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+
+        <button type="button" class="btn btn-danger" (click)="Delete()">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

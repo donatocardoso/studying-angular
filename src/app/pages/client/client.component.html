@@ -1,35 +1,100 @@
+<filter-client-modal
+  (onFilterClientList)="Filter($event)"
+></filter-client-modal>
+
+<add-client-modal
+  (onRefreshClientList)="RefreshClientList()"
+></add-client-modal>
+
+<button
+  id="BtnOpenUpdateClientModal"
+  type="button"
+  class="hidden"
+  data-bs-toggle="modal"
+  data-bs-target="#UpdateClientModal"
+></button>
+<update-client-modal
+  (onRefreshClientList)="RefreshClientList()"
+></update-client-modal>
+
+<button
+  id="BtnOpenDeleteClientModal"
+  type="button"
+  class="hidden"
+  data-bs-toggle="modal"
+  data-bs-target="#DeleteClientModal"
+></button>
+<delete-client-modal
+  (onRefreshClientList)="RefreshClientList()"
+></delete-client-modal>
+
 <div class="card">
   <div class="card-body">
     <h5 class="card-title">Clients</h5>
 
-    <table
-      class="table table-borderless table-primary table-striped table-hover"
-    >
-      <thead>
-        <tr>
-          <th scope="col">Id</th>
-          <th scope="col">Name</th>
-          <th scope="col">City</th>
-          <th scope="col">Created At</th>
-          <th scope="col">Updated At</th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
+    <div class="my-4 header">
+      <div>
+        <button
+          id="BtnOpenFilterClientModal"
+          type="button"
+          class="btn btn-info"
+          data-bs-toggle="modal"
+          data-bs-target="#FilterClientModal"
+        >
+          Filter
+        </button>
+      </div>
 
-      <tbody>
-        <tr *ngIf="!clients || !clients.length">
-          <td colspan="6">Don't find any client</td>
-        </tr>
+      <button
+        *ngIf="appStore.isAdmin$ | async"
+        id="BtnOpenAddClientModal"
+        type="button"
+        class="btn btn-success"
+        data-bs-toggle="modal"
+        data-bs-target="#AddClientModal"
+      >
+        Add
+      </button>
+    </div>
 
-        <tr *ngFor="let client of clients">
-          <td>#{{ client.id }}</td>
-          <td>{{ client.name }}</td>
-          <td>{{ client.city.name }}</td>
-          <td>{{ client.createdAt }}</td>
-          <td>{{ client.updatedAt }}</td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive-lg">
+      <table
+        class="table table-borderless table-info table-striped table-hover"
+      >
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">City</th>
+            <th scope="col">Created At</th>
+            <th scope="col">Updated At</th>
+            <th scope="col" *ngIf="appStore.isAdmin$ | async">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngIf="!clients || !clients.length">
+            <td colspan="6">Don't find any client</td>
+          </tr>
+
+          <tr *ngFor="let client of clients">
+            <td>#{{ client.id }}</td>
+            <td>{{ client.name }}</td>
+            <td>{{ client.city ? client.city.name : "" }}</td>
+            <td>{{ client.createdAt | date: "dd/MM/yyyy HH:mm" }}</td>
+            <td>{{ client.updatedAt | date: "dd/MM/yyyy HH:mm" }}</td>
+            <td class="actions" *ngIf="appStore.isAdmin$ | async">
+              <a (click)="EditClient(client.id)">
+                <i class="bi bi-pencil-square text-success"></i>
+              </a>
+
+              <a (click)="DeleteClient(client.id)">
+                <i class="bi bi-x-square-fill text-danger"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { AppStore } from 'src/app/app.component';
 import { AppStoreType } from 'src/app/app.store';
 import { AluraPicService } from 'src/app/services/alurapic/alurapic.service';
+import Blocked from 'src/app/services/alurapic/bloked/dtos/blocked';
 import { IfConfigMeService } from 'src/app/services/ifconfig.me/ifconfig.me.service';
 
 @Injectable({
@@ -25,100 +26,89 @@ export class LoginGuard implements CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
+    const fullPath = `/${segments.map((segment) => segment.path).join('/')}`;
+
     return new Promise((resolve, reject) => {
+      AppStore.GetStore().subscribe({
+        next: async (store) => {
+          // isLogged
+          const isRedirected = this.tryRedirectToHome(fullPath, store);
+
+          if (isRedirected) return resolve(false);
+
+          // check bloked ips
+          const networkip = await this.getNetworkIP();
+
+          if (!networkip) return resolve(false);
+
+          const hasBlocked = await this.getBlockedIP(networkip);
+
+          // your ip is blocked
+          if (hasBlocked.length) {
+            if (fullPath !== '/login/blocked') {
+              this.router.navigate(['/login/blocked']);
+
+              return resolve(false);
+            }
+
+            return resolve(true);
+          }
+
+          return resolve(true);
+        },
+        error: (err) => reject(err),
+      });
+    });
+  }
+
+  tryRedirectToHome(fullPath: string, store: AppStoreType): boolean {
+    console.log(store);
+    if (store.isLogged) {
+      if (store.isAdmin) {
+        this.router.navigate(['/admin/home']);
+
+        return true;
+      }
+
+      if (store.isUser) {
+        this.router.navigate(['/user/home']);
+
+        return true;
+      }
+    } else {
       const alurapic = localStorage.getItem('alurapic');
 
       if (alurapic) {
         const store = JSON.parse(alurapic) as AppStoreType;
 
-        if (store.user) {
-          AppStore.Login(store.user);
-        }
-        if (store.isLogged) {
-          if (store.isAdmin) {
-            this.router.navigate(['/admin/home']);
-            resolve(false);
-            return;
-          }
+        if (store.user) AppStore.Login(store.user);
 
-          if (store.isUser) {
-            this.router.navigate(['/admin/home']);
-            resolve(false);
-            return;
-          }
-        }
+        return this.tryRedirectToHome(fullPath, store);
       }
+    }
 
-      AppStore.GetStore().subscribe({
-        next: async (store) => {
-          if (store.isLogged) {
-            if (store.isAdmin) {
-              this.router.navigate(['/admin/home']);
-              resolve(false);
-              return;
-            }
+    return false;
+  }
 
-            if (store.isUser) {
-              this.router.navigate(['/admin/home']);
-              resolve(false);
-              return;
-            }
-          }
+  async getNetworkIP(): Promise<string> {
+    const config = await this.ifConfigMeService.AllJson();
 
-          const config = await this.ifConfigMeService.AllJson();
+    if (!config.ok) return '';
 
-          if (!config.ok) {
-            resolve(false);
-            return;
-          }
+    const networkip = (await config.json())['ip_addr'];
 
-          const networkip = (await config.json())['ip_addr'];
+    return networkip;
+  }
 
-          if (!networkip) {
-            resolve(false);
-            return;
-          }
+  async getBlockedIP(networkip: string): Promise<Blocked[]> {
+    const block = await this.aluraPicService.Blocked.GetByNetworkIP(networkip);
 
-          const block = await this.aluraPicService.Blocked.GetByNetworkIP(
-            networkip
-          );
+    if (!block.IsSuccess || !block.Content) return [];
 
-          if (!block.IsSuccess) {
-            resolve(false);
-            return;
-          }
+    return block.Content.filter((it) => {
+      const diffMinutes = moment().diff(it.createdAt, 'minutes');
 
-          if (block.Content) {
-            const hasBlocked = block.Content.filter((it) => {
-              const diffMinutes = moment().diff(it.createdAt, 'minutes');
-
-              return diffMinutes < 5;
-            });
-
-            if (segments.find((it) => it.path === 'blocked')) {
-              if (hasBlocked && hasBlocked.length) {
-                resolve(true);
-                return;
-              }
-
-              this.router.navigate(['/login']);
-
-              resolve(false);
-              return;
-            } else {
-              if (hasBlocked && hasBlocked.length) {
-                this.router.navigate(['/login/blocked']);
-
-                resolve(false);
-                return;
-              }
-            }
-          }
-
-          resolve(true);
-        },
-        error: (err) => reject(err),
-      });
+      return diffMinutes < 5;
     });
   }
 }

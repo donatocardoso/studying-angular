@@ -1,0 +1,114 @@
+<div class="modal fade" id="FilterClientModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="add-client-modal" class="modal-title">Filter Clients</h5>
+
+        <button
+          id="BtnCloseFilterClientModal"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="input-group mb-3">
+          <span class="col-3 input-group-text">Id</span>
+          <input
+            [(ngModel)]="client.id"
+            type="number"
+            class="form-control"
+            placeholder="Id"
+            aria-label="Id"
+            required
+            maxlength="5"
+          />
+        </div>
+
+        <div class="input-group mb-3">
+          <span class="col-3 input-group-text">Name</span>
+          <input
+            [ngModel]="client.name_like"
+            (ngModelChange)="client.name_like = $event.toUpperCase().trim()"
+            type="text"
+            class="form-control"
+            placeholder="Name"
+            aria-label="Name"
+            required
+            maxlength="25"
+          />
+        </div>
+
+        <div class="input-group mb-3">
+          <span class="col-3 input-group-text">City</span>
+          <select
+            [(ngModel)]="client.cityId"
+            (change)="onCityChange($event.target)"
+            class="form-select"
+            aria-label="City"
+            required
+            placeholder="City"
+          >
+            <option value="0" selected="selected">-- select --</option>
+
+            <option *ngFor="let city of cities" value="{{ city.id }}">
+              {{ city.name }}, {{ city.state }} - {{ city.country }}
+            </option>
+          </select>
+        </div>
+
+        <div class="input-group mb-3">
+          <span class="col-3 input-group-text">Created At</span>
+          <input
+            [ngModel]="client.createdAt_gte ?? ''"
+            (ngModelChange)="client.createdAt_gte = $event"
+            type="date"
+            class="form-control"
+            placeholder="Created At"
+            aria-label="Created At"
+            required
+            maxlength="10"
+          />
+        </div>
+
+        <div class="input-group mb-3">
+          <span class="col-3 input-group-text">Updated At</span>
+          <input
+            [ngModel]="client.updatedAt_gte ?? ''"
+            (ngModelChange)="client.updatedAt_gte = $event"
+            type="date"
+            class="form-control"
+            placeholder="Updated At"
+            aria-label="Updated At"
+            required
+            maxlength="10"
+          />
+        </div>
+      </div>
+
+      <div class="modal-footer justify-content-between">
+        <div class="left">
+          <button type="button" class="btn btn-warning" (click)="client = {}">
+            Clear
+          </button>
+        </div>
+
+        <div class="right">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+
+          <button type="button" class="btn btn-success" (click)="Filter()">
+            Filter
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

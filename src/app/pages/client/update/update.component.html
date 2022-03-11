@@ -1,0 +1,62 @@
+<div class="modal fade" id="UpdateClientModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="add-client-modal" class="modal-title">
+          Update Client <b>#{{ client?.id }}</b>
+        </h5>
+
+        <button
+          id="BtnCloseUpdateClientModal"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="input-group mb-3">
+          <span class="col-3 input-group-text">Name</span>
+          <input
+            [ngModel]="client.name"
+            (ngModelChange)="client.name = $event.toUpperCase().trim()"
+            type="text"
+            class="form-control"
+            placeholder="Name"
+            aria-label="Name"
+            required
+            maxlength="25"
+          />
+        </div>
+
+        <div class="input-group mb-3">
+          <span class="col-3 input-group-text">City</span>
+          <select
+            [(ngModel)]="client.cityId"
+            (change)="onCityChange($event.target)"
+            class="form-select"
+            aria-label="City"
+            required
+          >
+            <option *ngIf="client?.cityId == 0" value="0">-- select --</option>
+
+            <option *ngFor="let city of cities" value="{{ city.id }}">
+              {{ city.name }}, {{ city.state }} - {{ city.country }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+
+        <button type="button" class="btn btn-success" (click)="Save()">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

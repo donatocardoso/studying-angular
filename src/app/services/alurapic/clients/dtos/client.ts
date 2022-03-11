@@ -1,9 +1,11 @@
-import City from "../../cities/dtos/city";
+import City from '../../cities/dtos/city';
 
 export default interface Client {
-  id?: string;
+  id?: number;
   name: string;
-  city: City;
-  createdAt: Date;
-  updatedAt: Date;
+  cityId: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+
+  city?: City;
 }

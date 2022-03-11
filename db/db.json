@@ -18,7 +18,53 @@
       "id": 2
     }
   ],
-  "clients": [],
+  "clients": [
+    {
+      "name": "DONATO",
+      "cityId": 1,
+      "city": {
+        "name": "FRANCA",
+        "state": "SAO PAULO",
+        "country": "BRASIL",
+        "createdAt": "2022-03-08T14:07:13.963-03:00",
+        "updatedAt": "2022-03-08T14:07:13.963-03:00",
+        "id": 1
+      },
+      "createdAt": "2022-03-10T15:47:50.216-03:00",
+      "updatedAt": "2022-03-10T15:47:50.217-03:00",
+      "id": 1
+    },
+    {
+      "name": "MARLENE",
+      "cityId": 1,
+      "city": {
+        "name": "FRANCA",
+        "state": "SAO PAULO",
+        "country": "BRASIL",
+        "createdAt": "2022-03-08T14:07:13.963-03:00",
+        "updatedAt": "2022-03-08T14:07:13.963-03:00",
+        "id": 1
+      },
+      "createdAt": "2022-03-10T15:48:18.078-03:00",
+      "updatedAt": "2022-03-10T15:48:18.079-03:00",
+      "id": 3
+    },
+    {
+      "name": "DAVILA",
+      "cityId": 2,
+      "city": {
+        "name": "BATATAIS",
+        "state": "SAO PAULO",
+        "country": "BRASIL",
+        "createdAt": "2022-03-09T14:08:13.963-03:00",
+        "updatedAt": "2022-03-09T14:08:13.963-03:00",
+        "id": 2
+      },
+      "createdAt": "2022-03-10T15:48:29.992-03:00",
+      "updatedAt": "2022-03-10T15:48:29.992-03:00",
+      "id": 4
+    }
+  ],
   "users": [
     {
       "username": "davila",
