@@ -1,5 +1,5 @@
 <div class="row signup">
-  <div class="col-12 panel" *ngIf="!approved" [@TestFlyOut]>    
+  <div class="col-12 panel" *ngIf="approved" [@TestFlyOut]>    
     <div class="row my-4">
       <div class="col-12">
         <div class="bg-dark text-center">
@@ -59,7 +59,7 @@
     </div>
   </div>
 
-  <div class="col-12 panel" *ngIf="approved" [@RegisterFlyIn]>
+  <div class="col-12 panel" *ngIf="!approved" [@RegisterFlyIn]>
     <div class="row my-4">
       <div class="col-12">
         <div class="bg-dark text-center">

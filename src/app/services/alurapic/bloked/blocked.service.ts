@@ -1,3 +1,4 @@
+import moment from 'moment';
 import ApiReturn, { IApiReturn } from '../api.return';
 import Blocked from './dtos/blocked';
 
@@ -46,7 +47,11 @@ export class BlockedService {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(blocked),
+      body: JSON.stringify({
+        ...blocked,
+        createdAt: moment().toISOString(true),
+        updatedAt: moment().toISOString(true),
+      }),
     });
 
     if (!response.ok) {
@@ -59,7 +64,13 @@ export class BlockedService {
   public async Put(id: number, blocked: Blocked): Promise<IApiReturn> {
     const response = await fetch(`${this.baseURL}/blocked/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(blocked),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...blocked,
+        updatedAt: moment().toISOString(true),
+      }),
     });
 
     if (!response.ok) {
